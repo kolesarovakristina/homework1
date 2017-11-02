@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+    <script type="text/JavaScript">
+        function showAlert(){
+            var fname,lname;
+            fname=document.getElementById("firstname").value;
+            lname=document.getElementById("lastname").value;
+   // alert("Hello "+fname+" "+lname+" ! You pressed the button OK.");
+            document.getElementById("output").innerHTML="Hello "+fname+" "+lname+" ! You pressed the button OK."
+        }
+        function deleteOutput(){
+            document.getElementById("output").innerHTML="";
+        }
+        function printMessage(){
+            document.getElementById("message").innerHTML="Click on me";
+        }
+        function removeMessage(){
+            document.getElementById("message").innerHTML=" ";
+        }
+    </script>
+
+</table><br>
+<br>
+<form>
+<table >
+<col width="50%">
+<col width="50%">
+    <tr>
+        <td>Name:<td> <input type="text" id="firstname"></td>
+    </tr>
+    <tr>
+        <td>Surname:<td><input type="text" id="lastname"></td>
+    </tr>
+    <tr>
+    <td><input type="button" value="Ok" onclick="showAlert()" onmouseover="printMessage()" onmouseout="removeMessage()">
+    
+    <td><input type="reset" name="reset" value="reset" onclick="deleteOutput()" ></td>
+    </tr>
+</table>
+<div id="output"></div>
+<div id="message"></div>
+</form>
+       
+        
+
+</body>
+</html>
