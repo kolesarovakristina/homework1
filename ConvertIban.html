@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <center><table style="background-color: grey; color:black;" height="150" ></center>
+        <tr>
+            <td>
+            Prefix:<input type="text" id="pref">
+            Account number:<input type="text" id="accountNum">
+            </td>
+        </tr> 
+        <tr>
+            <td>BankCode:
+                <select id="bankCode" name="BankC" >
+                <option value="0200" selected="1">0200-Všeobecná úverová banka,a.s.</option>
+                <option value="0720">0720-Národná banka Slovenska</option>
+                <option value="0900">0900-Slovenská sporiteľňa,a.s.</option>}
+                <option value="1100">1100-Tatra banka,a.s.</option>
+                <option value="5200">5200-OPT Banka Slovensko,a.s.</option>
+                <option value="5600">5600-Prima banka Slovensko,a.s.</option>
+                <option value="6500">6500-Poštová banka,a.s.</option>
+                <option value="8170">8170-ČSOB Stavebná sporiteľňa,a.s. </option>
+                </select>
+            <input type="button" value="Convert" onclick="buildIban()">
+            </td>
+        </tr>
+<p id="showIban"></p>
+</table>
+<script  type="text/javascript">
+
+
+var bankCode = "";
+var prefix = "";
+var accountNumber = "";
+var K = "20";
+var S = "28";
+var afterModulo;
+var ibanString;
+var newIbanString="";
+var controlDigits="";
+const countryCode = "00";
+const controlDivident= "98";
+
+function buildIban() {
+    prefix = document.getElementById("pref").value;
+    accountNumber = document.getElementById("accountNum").value;
+    bankCode = document.getElementById("bankCode").value;
+    buildPrefix();
+    buildAccountNumber();
+    buildIbanString();
+    buildControlDigits();
+    buildIbanForShow();
+}
+
+function buildIbanString(){
+    ibanString = bankCode.toString()+prefix.toString()+accountNumber.toString()+S.toString()+K.toString()+countryCode;
+    console.log(ibanString);
+}
+
+function buildIbanForShow() {
+    newIbanString = "SK"+controlDigits.toString()+" "+bankCode.toString()+" "+prefix.toString()+" "
+                        +accountNumber.toString();
+    document.getElementById("showIban").innerText=newIbanString;
+}
+
+function buildControlDigits() {
+    afterModulo= modulo(ibanString,97); //39
+    controlDigits = controlDivident-afterModulo;
+    if(controlDigits.length < 2){
+        controlDigits = "0"+controlDigits;
+    }
+}
+
+function buildPrefix(){
+    if(prefix.length < 6){
+        var howManyZerroPrepend = 6-prefix.length;
+        var newPrefix="";
+        console.log(howManyZerroPrepend);
+        for( i=0; i<howManyZerroPrepend;i++ ){
+            newPrefix =newPrefix+"0";
+        }
+        prefix = newPrefix+prefix;
+        console.log(prefix);
+    }
+}
+function buildAccountNumber(){
+    if(accountNumber.length < 10 ){
+        var howManyZerroPrepend = 10-accountNumber.length;
+        var newAccountNumber="";
+        console.log(howManyZerroPrepend);
+        for( i=0; i<howManyZerroPrepend;i++ ){
+            newAccountNumber =newAccountNumber+"0";
+        }
+        accountNumber = newAccountNumber+accountNumber;
+        console.log(accountNumber);
+    }
+}
+
+function modulo( aNumStr, divident)
+{
+    var tmp = "";
+    var  i, r;
+    for ( i=0; i<aNumStr.length ; i++)
+    {
+        tmp += aNumStr.charAt( i);
+        r = tmp % divident;
+        tmp = r.toString( 10);
+    }
+    return tmp / 1;
+}
+</script>
+</body>
+
+</html>
